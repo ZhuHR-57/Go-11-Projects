@@ -55,6 +55,7 @@ func helloHandle(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+
 	//判断用户的请求方法
 	if request.Method != "GET" {
 		http.Error(writer, "method is not support", http.StatusNotFound)
@@ -64,17 +65,39 @@ func helloHandle(writer http.ResponseWriter, request *http.Request) {
 	fmt.Fprintf(writer, "hello")
 }
 
+//
+// @Title byeHandle
+// @Description 模仿helloHandler
+// @Author lido 2023-01-02 09:58:35
+// @Param w
+// @Param r
+//
+func byeHandle(w http.ResponseWriter,r *http.Request){
+
+	if r.URL.Path != "/bye"{
+		http.Error(w,"404 not found",http.StatusNotFound)
+		return
+	}
+
+	if r.Method != "GET"{
+		http.Error(w,"method is not support",http.StatusNotFound)
+		return
+	}
+
+	fmt.Fprintf(w,"bye")
+}
+
 func main() {
 	fileServer := http.FileServer(http.Dir("./p1-Go-Server/static"))
-	http.Handle("/", fileServer)
 
-	//处理from路由
-	http.HandleFunc("/form", formHandle)
-	//处理hello路由
-	http.HandleFunc("/hello", helloHandle)
+	http.Handle("/",fileServer)
+	http.HandleFunc("/form",formHandle)
+	http.HandleFunc("/hello",helloHandle)
+	http.HandleFunc("/bye",byeHandle)
 
-	fmt.Printf("Start Sever at port 8080\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	log.Print("Start Server at 8080")
+
+	if err := http.ListenAndServe(":8080",nil);err != nil {
 		log.Fatal(err)
 	}
 }
