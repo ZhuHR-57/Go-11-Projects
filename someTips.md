@@ -45,3 +45,14 @@ func HandleUse(w http.ResponseWriter, r *http.Request) {
 }
 123456789
 ```
+
+> 3. 字符串 < - > Int
+
+```go
+// 字符串 -> int
+ID,err := strconv.ParseInt(bookId,0,0)
+
+// int -> 字符串
+book.ID = strconv.Itoa(rand.Intn(10000000))
+```
+
