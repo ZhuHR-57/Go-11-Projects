@@ -6,4 +6,6 @@ learn from [Learn Go Programming by Building 11 Projects – Full Course](https:
 
 # Progress
 :white_check_mark: P1-Go-SimpleServer </br></br>
-:white_large_square: p2-Go-CURD
+:white_check_mark: p2-Go-CURD </br></br>
+:white_large_square: p3-Go-DataBase </br></br>
+
