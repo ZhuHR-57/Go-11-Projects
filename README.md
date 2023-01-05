@@ -1,10 +1,13 @@
-# Go-11-Projects
-11个关于Go的小demo
+
+
+来自B站、网易课堂、慕课网、YouTube等**学习圣地**中有趣且简单的Go语言demo
+
+Interesting and simple Go language demos from Bilibili, Icourse163, MOOC, YouTube and other learning sites
 
 `learn from`
 
-1. [Learn Go Programming by Building 11 Projects – Full Course](https://www.youtube.com/watch?v=jFfo23yIWac)
-2. [Go Web开发进阶实战（gin框架）](https://study.163.com/course/introduction.htm?courseId=1210171207)
+1. [Learn Go Programming by Building 11 Projects – Full Course](https://www.youtube.com/watch?v=jFfo23yIWac)【p1 ~ p4】
+2. [Go Web开发进阶实战（gin框架）](https://study.163.com/course/introduction.htm?courseId=1210171207) 【p5】
 
 # Progress
 :white_check_mark: P1-Go-SimpleServer </br>
