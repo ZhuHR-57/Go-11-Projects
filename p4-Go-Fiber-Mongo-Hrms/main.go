@@ -66,6 +66,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
+
 	app := fiber.New()
 
 	app.Get("/employee", GetAllEmployee)

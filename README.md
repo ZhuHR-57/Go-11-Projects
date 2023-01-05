@@ -15,5 +15,27 @@
 
 :white_check_mark: p4-Go-Fiber-Mongo-Hrms  </br></br>
 
-:white_large_square: p5-Go-ServerlessStack  </br></br>
+:white_large_square: p5-Go-Gin-Forum 
+
+​	  :white_check_mark: Gin源码（路由和中间件部分）
+
+​	  :white_large_square: Mysql 和 sqlx
+
+​	  :white_large_square: Redis
+
+​	  :white_large_square: zap 和 viper
+
+​	  :white_large_square: Forum数据库设计
+
+​	  :white_large_square: Forum项目基本环境搭建
+
+​	  :white_large_square: Forum用户模块开发【单点登录，JWT】
+
+​	  :white_large_square: Forum帖子模块开发【CURD，投票】
+
+​	  :white_large_square: swagger接口文档
+
+​	  :white_large_square: Forum测试【单元测试，压力测试，pprof性能测试】
+
+​	  :white_large_square: Forum部署【nginx，docker】
 
