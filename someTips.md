@@ -58,7 +58,7 @@ book.ID = strconv.Itoa(rand.Intn(10000000))
 
 > 4. 结构体中json的设置
 
-`omitempty关键字`
+`omitempty关键字：实现没有值时则不显示对应的字段`
 
 1. 当简单类型时，可以忽略 【int,string,pointer】
 
