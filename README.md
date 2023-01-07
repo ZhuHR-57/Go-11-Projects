@@ -1,12 +1,18 @@
 
 
-来自B站、网易课堂、慕课网、YouTube等**学习圣地**中有趣且简单的Go语言demo
+来自书、B站、网易课堂、慕课网、YouTube等**学习圣地**中有趣且简单的Go语言demo
 
-Interesting and simple Go language demos from Bilibili, Icourse163, MOOC, YouTube and other learning sites
+Interesting and simple Go language demos from Books ,Bilibili, Icourse163, MOOC, YouTube and other learning sites
 
 
 
 ## learn from
+
+`Book`
+
+1. Waiting...
+
+
 
 `Youtube`
 
@@ -42,9 +48,9 @@ Interesting and simple Go language demos from Bilibili, Icourse163, MOOC, YouTub
 :white_large_square: p5-Go-Gin-Forum 
 
 +  :white_check_mark: Gin源码（路由和中间件部分）
-+  :white_check_mark: Mysql 和 sqlx （Go原生Mysql的使用，sqlx库的使用）【还差sqlx in函数没学】
-+  :white_large_square: Redis
-+  :white_large_square: zap 和 viper
++  :white_check_mark: Mysql 和 sqlx （Go原生Mysql的使用，sqlx库的使用）
++  :white_check_mark: Redis
++  :white_large_square: zap日志库 和 viper文件管理库
 +  :white_large_square: Forum数据库设计
 +  :white_large_square: Forum项目基本环境搭建
 +  :white_large_square: Forum用户模块开发【单点登录，JWT】
