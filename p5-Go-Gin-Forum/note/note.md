@@ -2504,3 +2504,709 @@ fmt.Println("ended with", n, err)
 
 # zap日志库
 
+> 参考文章：
+>
+> 1. [在Go语言项目中使用Zap日志库](https://www.liwenzhou.com/posts/Go/zap/)
+> 2. 
+
+## 原生的日志库
+
+```go
+/**
+  @Go version: 1.17.6
+  @project: elevenProject
+  @ide: GoLand
+  @file: goLog.go
+  @author: Lido
+  @time: 2023-01-08 12:41
+  @description: 使用Go原生的日志库
+*/
+package main
+
+import (
+   "log"
+   "net/http"
+   "os"
+)
+
+// 设置日志文件
+func SetupLogger() {
+   logFileLocation, _ := os.OpenFile("../log/test.log", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0744)
+   log.SetOutput(logFileLocation)
+}
+
+// 日志记录方式
+func simpleHttpGet_golog(url string) {
+   resp, err := http.Get(url)
+   if err != nil {
+      log.Printf("Error fetching url %s : %s", url, err.Error())
+   } else {
+      log.Printf("Status Code for %s : %s", url, resp.Status)
+      resp.Body.Close()
+   }
+}
+
+// 测试
+func main() {
+   SetupLogger()
+   simpleHttpGet_golog("www.baidu.com")
+   simpleHttpGet_golog("http://www.baidu.com")
+}
+```
+
+`test.log 内容`
+
+```
+2023/01/08 12:46:18 Error fetching url www.baidu.com : Get "www.baidu.com": unsupported protocol scheme ""
+2023/01/08 12:46:18 Status Code for http://www.baidu.com : 200 OK
+```
+
+## 安装与配置
+
+### 安装
+
+运行下面的命令安装zap
+
+```bash
+go get -u go.uber.org/zap
+```
+
+### 配置Zap Logger
+
+Zap提供了两种类型的日志记录器—`Sugared Logger`和`Logger`。
+
+在性能很好但不是很关键的上下文中，使用`SugaredLogger`。它比其他结构化日志记录包快4-10倍，并且支持结构化和printf风格的日志记录。
+
+在每一微秒和每一次内存分配都很重要的上下文中，使用`Logger`。它甚至比`SugaredLogger`更快，内存分配次数也更少，但它只支持强类型的结构化日志记录。
+
+#### Logger
+
+- 通过调用`zap.NewProduction()`、`zap.NewDevelopment()`、`zap.Example()`创建一个Logger。
+- 上面的每一个函数都将创建一个logger。唯一的区别在于它将记录的信息不同。例如production logger默认记录调用函数信息、日期和时间等。
+- 通过Logger调用Info/Error等。
+- 默认情况下日志都会**打印到应用程序的console界面**。
+
+```go
+/**
+  @Go version: 1.17.6
+  @project: elevenProject
+  @ide: GoLand
+  @file: zap.go
+  @author: Lido
+  @time: 2023-01-08 12:37
+  @description: zap日志库的使用
+*/
+package main
+
+import (
+   "go.uber.org/zap"
+   "net/http"
+)
+
+var logger *zap.Logger
+
+func main() {
+   InitLogger()
+   // 程序退出之前，将缓冲区中的数据刷到log文件中
+   defer logger.Sync()
+   // 记录日志
+   simpleHttpGet("www.baidu.com")
+   simpleHttpGet("http://www.baidu.com")
+}
+
+func InitLogger() {
+   logger, _ = zap.NewProduction() // 返回json格式
+   // logger.Sugar() suger版本
+}
+
+func simpleHttpGet(url string) {
+   resp, err := http.Get(url)
+   if err != nil {
+      logger.Error(
+         "Error fetching url..",
+         zap.String("url", url),
+         zap.Error(err))
+   } else {
+      logger.Info("Success..",
+         zap.String("statusCode", resp.Status),
+         zap.String("url", url))
+      resp.Body.Close()
+   }
+}
+```
+
+`sugarLogger`
+
+```go
+var sugarLogger *zap.SugaredLogger
+
+func main() {
+	InitLogger()
+	defer sugarLogger.Sync()
+	simpleHttpGet("www.google.com")
+	simpleHttpGet("http://www.google.com")
+}
+
+func InitLogger() {
+  logger, _ := zap.NewProduction()
+	sugarLogger = logger.Sugar()
+}
+
+func simpleHttpGet(url string) {
+	sugarLogger.Debugf("Trying to hit GET request for %s", url)
+	resp, err := http.Get(url)
+	if err != nil {
+		sugarLogger.Errorf("Error fetching URL %s : Error = %s", url, err)
+	} else {
+		sugarLogger.Infof("Success! statusCode = %s for URL %s", resp.Status, url)
+		resp.Body.Close()
+	}
+}
+```
+
+## 定制zap
+
+> 1. 将日志写入文件而不是终端
+
+我们要做的第一个更改是把日志写入文件，而不是打印到应用程序控制台。
+
+- 我们将使用`zap.New(…)`方法来手动传递所有配置，而不是使用像`zap.NewProduction()`这样的预置方法来创建logger。
+
+```go
+func New(core zapcore.Core, options ...Option) *Logger
+```
+
+`zapcore.Core`需要三个配置——`Encoder`，`WriteSyncer`，`LogLevel`。
+
+1.**Encoder**:编码器(如何写入日志)。我们将使用开箱即用的`NewJSONEncoder()`，并使用预先设置的`ProductionEncoderConfig()`。
+
+```go
+   zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
+```
+
+2.**WriterSyncer** ：指定日志将写到哪里去。我们使用`zapcore.AddSync()`函数并且将打开的文件句柄传进去。
+
+```go
+   file, _ := os.Create("./test.log")
+   writeSyncer := zapcore.AddSync(file)
+```
+
+3.**Log Level**：哪种**级别**的日志将被写入。
+
+我们将修改上述部分中的Logger代码，并重写`InitLogger()`方法。其余方法—`main()` /`SimpleHttpGet()`保持不变。
+
+### 编码格式 和 输出位置
+
+> 1. 输出到文件
+> 2. 以**终端格式**或**JSON'格式**
+
+```go
+//
+// @Title InitLogger
+// @Description 初始化zap日志库
+// @Author lido 2023-01-08 14:01:48
+//
+func InitLogger() {
+   writeSyncer := getLogWriter()
+   encoder := getEncoder()
+   core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel) // Debug级别
+
+   logger = zap.New(core)
+}
+
+//
+// @Title getEncoder
+// @Description 编码格式
+// @Author lido 2023-01-08 14:01:39
+// @Return zapcore.Encoder
+//
+func getEncoder() zapcore.Encoder {
+   // 按照json格式编码格式
+   //return zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
+   
+   // 输出到终端的格式
+   return zapcore.NewConsoleEncoder(zap.NewProductionEncoderConfig())
+}
+
+//
+// @Title getLogWriter
+// @Description 记录位置
+// @Author lido 2023-01-08 14:01:27
+// @Return zapcore.WriteSyncer
+//
+func getLogWriter() zapcore.WriteSyncer {
+   file, _ := os.OpenFile("../log/test.log",os.O_CREATE|os.O_APPEND|os.O_RDWR, 0744)
+   return zapcore.AddSync(file)
+}
+```
+
+`log文件记录下的 JSON格式`
+
+```json
+{"level":"error","ts":1673157768.079951,"msg":"Error fetching url..","url":"www.baidu.com","error":"Get \"www.baidu.com\": unsupported protocol scheme \"\""}
+{"level":"info","ts":1673157768.2709525,"msg":"Success..","statusCode":"200 OK","url":"http://www.baidu.com"}
+```
+
+`log文件记录下的 终端格式`
+
+```
+1.673157830800904e+09	error	Error fetching url..	{"url": "www.baidu.com", "error": "Get \"www.baidu.com\": unsupported protocol scheme \"\""}
+1.6731578311926007e+09	info	Success..	{"statusCode": "200 OK", "url": "http://www.baidu.com"}
+```
+
+### 详细的编码配置 和 记录调用函数的信息
+
+```go
+//
+// @Title InitLogger
+// @Description 初始化zap日志库
+// @Author lido 2023-01-08 14:01:48
+//
+func InitLogger() {
+   writeSyncer := getLogWriter()
+   encoder := getEncoder()
+   core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel)
+
+   // zap.AddCaller() 记录调用函数的信息
+   logger = zap.New(core,zap.AddCaller())
+}
+
+//
+// @Title getEncoder
+// @Description 编码格式
+// @Author lido 2023-01-08 14:01:39
+// @Return zapcore.Encoder
+//
+func getEncoder() zapcore.Encoder {
+
+   // 更详细的信息配置
+   encoderConfig := zapcore.EncoderConfig{
+      TimeKey:        "ts",
+      LevelKey:       "level",
+      NameKey:        "logger",
+      CallerKey:      "caller",
+      FunctionKey:    zapcore.OmitKey,
+      MessageKey:     "msg",
+      StacktraceKey:  "stacktrace",
+      LineEnding:     zapcore.DefaultLineEnding,
+      EncodeLevel:    zapcore.LowercaseLevelEncoder,
+      EncodeTime:     zapcore.ISO8601TimeEncoder, //友好的时间格式
+      EncodeDuration: zapcore.SecondsDurationEncoder,
+      EncodeCaller:   zapcore.ShortCallerEncoder,
+   }
+
+   // 按照json格式编码格式
+   //return zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
+
+   // 输出到终端的格式
+   return zapcore.NewConsoleEncoder(encoderConfig)
+}
+```
+
+`log文件`
+
+```json
+2023-01-08T14:14:04.633+0800	error	code/zap.go:89	Error fetching url..	{"url": "www.baidu.com", "error": "Get \"www.baidu.com\": unsupported protocol scheme \"\""}
+2023-01-08T14:14:04.912+0800	info	code/zap.go:94	Success..	{"statusCode": "200 OK", "url": "http://www.baidu.com"}
+```
+
+### 将日志输出到多个位置
+
+我们可以将日志同时输出到**文件和终端。**
+
+```go
+func getLogWriter() zapcore.WriteSyncer {
+	file, _ := os.Create("./test.log")
+	// 利用io.MultiWriter支持文件和终端两个输出目标
+	ws := io.MultiWriter(file, os.Stdout)
+	return zapcore.AddSync(ws)
+}
+```
+
+### 将err日志单独输出到文件
+
+有时候我们除了将全量日志输出到`xx.log`文件中之外，还希望将`ERROR`级别的日志单独输出到一个名为`xx.err.log`的日志文件中。我们可以通过以下方式实现。
+
+```go
+func InitLogger() {
+	encoder := getEncoder()
+	// test.log记录全量日志
+	logF, _ := os.Create("./test.log")
+	c1 := zapcore.NewCore(encoder, zapcore.AddSync(logF), zapcore.DebugLevel)
+	// test.err.log记录ERROR级别的日志
+	errF, _ := os.Create("./test.err.log")
+	c2 := zapcore.NewCore(encoder, zapcore.AddSync(errF), zap.ErrorLevel)
+	// 使用NewTee将c1和c2合并到core
+	core := zapcore.NewTee(c1, c2)
+	logger = zap.New(core, zap.AddCaller())
+}
+```
+
+## 切割归档
+
+这个日志程序中唯一缺少的就是日志切割归档功能。
+
+> *Zap本身不支持切割归档日志文件*
+
+官方的说法是为了添加日志切割归档功能，我们将使用第三方库[Lumberjack](https://github.com/natefinch/lumberjack)来实现。
+
+目前只支持按文件大小切割，原因是按时间切割效率低且不能保证日志数据不被破坏。详情戳https://github.com/natefinch/lumberjack/issues/54。
+
+想按日期切割可以使用[github.com/lestrrat-go/file-rotatelogs](https://github.com/lestrrat-go/file-rotatelogs)这个库，虽然目前不维护了，但也够用了。
+
+```go
+// 使用file-rotatelogs按天切割日志
+
+import rotatelogs "github.com/lestrrat-go/file-rotatelogs"
+
+l, _ := rotatelogs.New(
+	filename+".%Y%m%d%H%M",
+	rotatelogs.WithMaxAge(30*24*time.Hour),    // 最长保存30天
+	rotatelogs.WithRotationTime(time.Hour*24), // 24小时切割一次
+)
+zapcore.AddSync(l)
+```
+
+### 安装
+
+执行下面的命令安装 Lumberjack v2 版本。
+
+```
+go get gopkg.in/natefinch/lumberjack.v2
+```
+
+### zap logger中加入Lumberjack
+
+要在zap中加入Lumberjack支持，我们需要修改`WriteSyncer`代码。我们将按照下面的代码修改`getLogWriter()`函数：
+
+```go
+func getLogWriter() zapcore.WriteSyncer {
+	lumberJackLogger := &lumberjack.Logger{
+		Filename:   "./test.log",
+		MaxSize:    1,  	// M
+		MaxBackups: 5,   	// 最大备份数量
+		MaxAge:     30, 	// 最大备份天数
+		Compress:   false,  //是否压缩
+	}
+	return zapcore.AddSync(lumberJackLogger)
+}
+```
+
+Lumberjack Logger采用以下属性作为输入:
+
+- Filename: 日志文件的位置
+- MaxSize：在进行切割之前，日志文件的最大大小（以MB为单位）
+- MaxBackups：保留旧文件的最大个数
+- MaxAges：保留旧文件的最大天数
+- Compress：是否压缩/归档旧文件
+
+### 测试所有功能
+
+最终，使用Zap/Lumberjack logger的完整示例代码如下：
+
+```go
+/**
+  @Go version: 1.17.6
+  @project: elevenProject
+  @ide: GoLand
+  @file: zap.go
+  @author: Lido
+  @time: 2023-01-08 12:37
+  @description: zap日志库的使用
+*/
+package main
+
+import (
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"gopkg.in/natefinch/lumberjack.v2"
+	"net/http"
+)
+
+var logger *zap.Logger
+
+func main() {
+	InitLogger()
+	// 程序退出之前，将缓冲区中的数据刷到log文件中
+	defer logger.Sync()
+
+	// 测试日志切割
+	for i := 0; i < 50000; i++ {
+		logger.Info("test log split ... ")
+	}
+	
+	// 记录日志
+	simpleHttpGet("www.baidu.com")
+	simpleHttpGet("http://www.baidu.com")
+}
+
+//
+// @Title InitLogger
+// @Description 初始化zap日志库
+// @Author lido 2023-01-08 14:01:48
+//
+func InitLogger() {
+	writeSyncer := getLogWriter()
+	encoder := getEncoder()
+	core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel) // Debug级别
+
+	// zap.AddCaller() 记录调用函数的信息
+	logger = zap.New(core,zap.AddCaller())
+}
+
+//
+// @Title getEncoder
+// @Description 编码格式
+// @Author lido 2023-01-08 14:01:39
+// @Return zapcore.Encoder
+//
+func getEncoder() zapcore.Encoder {
+
+	// 更详细的信息配置
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+
+	// 按照json格式编码格式
+	return zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
+
+	// 输出到终端的格式
+	return zapcore.NewConsoleEncoder(encoderConfig)
+}
+
+func getLogWriter() zapcore.WriteSyncer {
+	lumberJackLogger := &lumberjack.Logger{
+		Filename:   "../log/test.log",
+		MaxSize:    1,  	// M
+		MaxBackups: 5,   	// 最大备份数量
+		MaxAge:     30, 	// 最大备份天数
+		Compress:   false,  //是否压缩
+	}
+	return zapcore.AddSync(lumberJackLogger)
+}
+
+func simpleHttpGet(url string) {
+	resp, err := http.Get(url)
+	if err != nil {
+		logger.Error(
+			"Error fetching url..",
+			zap.String("url", url),
+			zap.Error(err))
+	} else {
+		logger.Info("Success..",
+			zap.String("statusCode", resp.Status),
+			zap.String("url", url))
+		resp.Body.Close()
+	}
+}
+```
+
+同时，可以在`main`函数中循环记录日志，测试日志文件是否会自动切割和归档（日志文件每1MB会切割并且在当前目录下最多保存5个备份）。
+
+![image-20230108143626803](note.assets/image-20230108143626803.png)
+
+## Gin配置zap
+
+> 核心：通过添加中间件的方式配置zap日志库
+
+`中间件`
+
+```go
+//
+// @Title GinLogger
+// @Description 接收gin框架默认的日志
+// @Author lido 2023-01-08 15:08:43
+// @Return gin.HandlerFunc
+//
+func GinLogger() gin.HandlerFunc {
+   return func(c *gin.Context) {
+      start := time.Now()
+      path := c.Request.URL.Path
+      query := c.Request.URL.RawQuery
+      c.Next()
+
+      cost := time.Since(start)
+      logger.Info(path,
+         zap.Int("status", c.Writer.Status()),
+         zap.String("method", c.Request.Method),
+         zap.String("path", path),
+         zap.String("query", query),
+         zap.String("ip", c.ClientIP()),
+         zap.String("user-agent", c.Request.UserAgent()),
+         zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
+         zap.Duration("cost", cost),
+      )
+   }
+}
+
+//
+// @Title GinRecovery
+// @Description recover掉项目可能出现的panic，并使用zap记录相关日志
+// @Author lido 2023-01-08 15:09:04
+// @Param stack
+// @Return gin.HandlerFunc
+//
+func GinRecovery(stack bool) gin.HandlerFunc {
+   return func(c *gin.Context) {
+      defer func() {
+         if err := recover(); err != nil {
+            // Check for a broken connection, as it is not really a
+            // condition that warrants a panic stack trace.
+            var brokenPipe bool
+            if ne, ok := err.(*net.OpError); ok {
+               if se, ok := ne.Err.(*os.SyscallError); ok {
+                  if strings.Contains(strings.ToLower(se.Error()), "broken pipe") || strings.Contains(strings.ToLower(se.Error()), "connection reset by peer") {
+                     brokenPipe = true
+                  }
+               }
+            }
+
+            httpRequest, _ := httputil.DumpRequest(c.Request, false)
+            if brokenPipe {
+               logger.Error(c.Request.URL.Path,
+                  zap.Any("error", err),
+                  zap.String("request", string(httpRequest)),
+               )
+               // If the connection is dead, we can't write a status to it.
+               c.Error(err.(error)) // nolint: errcheck
+               c.Abort()
+               return
+            }
+
+            if stack {
+               logger.Error("[Recovery from panic]",
+                  zap.Any("error", err),
+                  zap.String("request", string(httpRequest)),
+                  zap.String("stack", string(debug.Stack())),
+               )
+            } else {
+               logger.Error("[Recovery from panic]",
+                  zap.Any("error", err),
+                  zap.String("request", string(httpRequest)),
+               )
+            }
+            c.AbortWithStatus(http.StatusInternalServerError)
+         }
+      }()
+      c.Next()
+   }
+}
+```
+
+`初始化配置zap logger`
+
+```go
+func InitLogger() {
+	writeSyncer := getLogWriter()
+	encoder := getEncoder()
+	core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel) // Debug级别
+
+	// zap.AddCaller() 记录调用函数的信息
+	logger = zap.New(core, zap.AddCaller())
+}
+
+func getEncoder() zapcore.Encoder {
+
+	// 更详细的信息配置
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+
+	// 输出到终端的格式
+	return zapcore.NewConsoleEncoder(encoderConfig)
+}
+
+func getLogWriter() zapcore.WriteSyncer {
+	lumberJackLogger := &lumberjack.Logger{
+		Filename:   "../../log/test.log",
+		MaxSize:    1,     // M
+		MaxBackups: 5,     // 最大备份数量
+		MaxAge:     30,    // 最大备份天数
+		Compress:   false, //是否压缩
+	}
+	return zapcore.AddSync(lumberJackLogger)
+}
+```
+
+`主程序`
+
+```go
+var logger *zap.Logger
+
+func main() {
+	InitLogger()
+
+	r := gin.New()
+	// 通过中间件的方式嵌入
+	r.Use(GinLogger(), GinRecovery(true))
+	r.GET("/hello", func(c *gin.Context) {
+		c.String(200, "hello World!")
+	})
+	r.Run()
+}
+```
+
+`输出到log文件中的日志信息`
+
+```
+2023-01-08T15:07:51.072+0800	info	gin/ginZap.go:84	/hello	{"status": 200, "method": "GET", "path": "/hello", "query": "", "ip": "::1", "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36", "errors": "", "cost": 0}
+```
+
+
+
+# Viper配置管理
+
+> 参考文章：[Go语言配置管理神器——Viper中文教程](https://www.liwenzhou.com/posts/Go/viper/)
+
+## Viper 安装
+
+Viper是适用于Go应用程序（包括`Twelve-Factor App`）的完整配置解决方案。它被设计用于在应用程序中工作，并且可以处理所有类型的配置需求和格式。它支持以下特性：
+
+- 设置默认值
+- 从`JSON`、`TOML`、`YAML`、`HCL`、`envfile`和`Java properties`格式的配置文件读取配置信息
+- 实时监控和重新读取配置文件（可选）
+- 从环境变量中读取
+- 从远程配置系统（etcd或Consul）读取并监控配置变化
+- 从命令行参数读取配置
+- 从buffer读取配置
+- 显式配置值
+
+
+
+Viper能够为你执行下列操作：
+
+1. 查找、加载和反序列化`JSON`、`TOML`、`YAML`、`HCL`、`INI`、`envfile`和`Java properties`格式的配置文件。
+2. 提供一种机制为你的不同配置选项设置默认值。
+3. 提供一种机制来通过命令行参数覆盖指定选项的值。
+4. 提供别名系统，以便在不破坏现有代码的情况下轻松重命名参数。
+5. 当用户提供了与默认值相同的命令行或配置文件时，可以很容易地分辨出它们之间的区别。
+
+Viper会按照下面的优先级。每个项目的优先级都高于它下面的项目:
+
+- 显示调用`Set`设置值
+- 命令行参数（flag）
+- 环境变量
+- 配置文件
+- key/value存储
+- 默认值
+
+**重要：** 目前Viper配置的键（Key）是**大小写不敏感**的。目前正在讨论是否将这一选项设为可选。
+
+### 安装
+
+```
+go get github.com/spf13/viper
+```
+
+
+
+# IDE 配置
+
+## 配置
+
+> 文件监听和自动化格式
+
+![image-20230108144510742](note.assets/image-20230108144510742.png)
+
+## 快捷键
+
+1. `[ Ctrl ] + [ + ]` or `[ Ctrl ] + [ - ]` 折叠单个方法
+2.  `[ Ctrl ] + [ Shift ] + [ + ]` or `[ Ctrl ] + [ Shift ] + [ - ]` 折叠全部方法

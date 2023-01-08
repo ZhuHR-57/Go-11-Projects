@@ -47,10 +47,11 @@ Interesting and simple Go language demos from Books ,Bilibili, Icourse163, MOOC,
 
 :white_large_square: p5-Go-Gin-Forum 
 
-+  :white_check_mark: Gin源码（路由和中间件部分）
-+  :white_check_mark: Mysql 和 sqlx （Go原生Mysql的使用，sqlx库的使用）
-+  :white_check_mark: Redis
-+  :white_large_square: zap日志库 和 viper文件管理库
++  :white_check_mark: Gin源码【路由和中间件部分】
++  :white_check_mark: Mysql 和 sqlx 【Go原生Mysql的使用，sqlx库的使用】
++  :white_check_mark: Redis 【redis的基本配置和使用】
++  :white_check_mark: zap日志库 【zap日志库配置、gin配置zap】
++  :white_large_square: viper文件管理库
 +  :white_large_square: Forum数据库设计
 +  :white_large_square: Forum项目基本环境搭建
 +  :white_large_square: Forum用户模块开发【单点登录，JWT】

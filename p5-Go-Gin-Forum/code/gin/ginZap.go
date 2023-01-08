@@ -18,26 +18,67 @@ import (
 	"strings"
 	"time"
 
+	"go.uber.org/zap/zapcore"
+	"gopkg.in/natefinch/lumberjack.v2"
+
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
+var logger *zap.Logger
+
 func main() {
-	r := gin.Default()
+	InitLogger()
+
+	r := gin.New()
+	// 通过中间件的方式嵌入
+	r.Use(GinLogger(), GinRecovery(true))
 	r.GET("/hello", func(c *gin.Context) {
-		c.String("hello world!")
+		c.String(200, "hello World!")
 	})
 	r.Run()
 }
 
+func InitLogger() {
+	writeSyncer := getLogWriter()
+	encoder := getEncoder()
+	core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel) // Debug级别
+
+	// zap.AddCaller() 记录调用函数的信息
+	logger = zap.New(core, zap.AddCaller())
+}
+
+func getEncoder() zapcore.Encoder {
+
+	// 更详细的信息配置
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+
+	// 按照json格式编码格式
+	// return zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
+
+	// 输出到终端的格式
+	return zapcore.NewConsoleEncoder(encoderConfig)
+}
+
+func getLogWriter() zapcore.WriteSyncer {
+	lumberJackLogger := &lumberjack.Logger{
+		Filename:   "../../log/test.log",
+		MaxSize:    1,     // M
+		MaxBackups: 5,     // 最大备份数量
+		MaxAge:     30,    // 最大备份天数
+		Compress:   false, //是否压缩
+	}
+	return zapcore.AddSync(lumberJackLogger)
+}
+
 //
 // @Title GinLogger
-// @Description GinLogger 接收gin框架默认的日志
-// @Author lido 2023-01-08 14:47:23
-// @Param logger
+// @Description 接收gin框架默认的日志
+// @Author lido 2023-01-08 15:08:43
 // @Return gin.HandlerFunc
 //
-func GinLogger(logger *zap.Logger) gin.HandlerFunc {
+func GinLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
 		path := c.Request.URL.Path
@@ -60,13 +101,12 @@ func GinLogger(logger *zap.Logger) gin.HandlerFunc {
 
 //
 // @Title GinRecovery
-// @Description GinRecovery recover掉项目可能出现的panic
-// @Author lido 2023-01-08 14:47:15
-// @Param logger
+// @Description recover掉项目可能出现的panic，并使用zap记录相关日志
+// @Author lido 2023-01-08 15:09:04
 // @Param stack
 // @Return gin.HandlerFunc
 //
-func GinRecovery(logger *zap.Logger, stack bool) gin.HandlerFunc {
+func GinRecovery(stack bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
