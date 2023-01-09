@@ -51,7 +51,7 @@ Interesting and simple Go language demos from Books ,Bilibili, Icourse163, MOOC,
 +  :white_check_mark: Mysql 和 sqlx 【Go原生Mysql的使用，sqlx库的使用】
 +  :white_check_mark: Redis 【redis的基本配置和使用】
 +  :white_check_mark: zap日志库 【zap日志库配置、gin配置zap】
-+  :white_large_square: viper文件管理库
++  :white_check_mark: viper文件管理库
 +  :white_large_square: Forum数据库设计
 +  :white_large_square: Forum项目基本环境搭建
 +  :white_large_square: Forum用户模块开发【单点登录，JWT】
@@ -64,4 +64,10 @@ Interesting and simple Go language demos from Books ,Bilibili, Icourse163, MOOC,
 
 # Next
 
-+ 完成每一个项目的readme编写，内容是：主要的知识点 和 难点
+:white_large_square: 完成每一个项目的readme编写，内容是：主要的知识点 和 难点
+
+:white_large_square: 分类整理出各种工具
+
++ :white_large_square: 日志
++ :white_large_square: 配置文件管理
++ ...
