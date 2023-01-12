@@ -1,0 +1,59 @@
+{"level":"DEBUG","time":"2023-01-11T19:57:18.512+0800","caller":"forumProject/main.go:48","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T19:57:18.527+0800","caller":"forumProject/main.go:59","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T19:57:18.754+0800","caller":"forumProject/main.go:67","msg":"redis init success..."}
+{"level":"INFO","time":"2023-01-11T19:57:33.657+0800","caller":"logger/logger.go:98","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0}
+{"level":"DEBUG","time":"2023-01-11T20:15:19.003+0800","caller":"forumProject/main.go:38","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:15:19.009+0800","caller":"forumProject/main.go:49","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:15:19.111+0800","caller":"forumProject/main.go:57","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:20:00.571+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:20:00.578+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:20:00.786+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"INFO","time":"2023-01-11T20:20:14.898+0800","caller":"logger/logger.go:95","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":10.0008693}
+{"level":"DEBUG","time":"2023-01-11T20:20:54.730+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:20:54.738+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:20:54.779+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:21:53.993+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:21:54.001+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:21:54.220+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"INFO","time":"2023-01-11T20:22:08.408+0800","caller":"forumProject/main.go:95","msg":"Shutdown Server ..."}
+{"level":"INFO","time":"2023-01-11T20:22:15.645+0800","caller":"logger/logger.go:95","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":10.0006641}
+{"level":"INFO","time":"2023-01-11T20:22:15.746+0800","caller":"forumProject/main.go:104","msg":"Server exiting"}
+{"level":"DEBUG","time":"2023-01-11T20:33:03.796+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:33:03.803+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:33:03.849+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:33:03.852+0800","caller":"forumProject/main.go:67","msg":"routes init success..."}
+{"level":"INFO","time":"2023-01-11T20:33:17.652+0800","caller":"forumProject/main.go:90","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-01-11T20:33:24.877+0800","caller":"logger/logger.go:95","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":10.0023079}
+{"level":"INFO","time":"2023-01-11T20:33:24.982+0800","caller":"forumProject/main.go:99","msg":"服务正常退出"}
+{"level":"DEBUG","time":"2023-01-11T20:34:44.555+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:34:44.561+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:34:44.618+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:34:44.621+0800","caller":"routes/routes.go:35","msg":"routes init success..."}
+{"level":"INFO","time":"2023-01-11T20:35:09.263+0800","caller":"forumProject/main.go:89","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-01-11T20:35:09.266+0800","caller":"forumProject/main.go:98","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-01-11T20:53:32.319+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:53:32.326+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:53:32.538+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:53:32.542+0800","caller":"forumProject/main.go:67","msg":"routes init success..."}
+{"level":"INFO","time":"2023-01-11T20:53:52.571+0800","caller":"forumProject/main.go:89","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-01-11T20:53:52.574+0800","caller":"forumProject/main.go:98","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-01-11T20:54:01.353+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:54:01.359+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:54:01.586+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:54:01.589+0800","caller":"forumProject/main.go:67","msg":"routes init success..."}
+{"level":"INFO","time":"2023-01-11T20:54:11.005+0800","caller":"forumProject/main.go:89","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-01-11T20:54:19.117+0800","caller":"logger/logger.go:95","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":10.0005099}
+{"level":"INFO","time":"2023-01-11T20:54:19.367+0800","caller":"forumProject/main.go:98","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-01-11T20:54:43.442+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:54:43.448+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:54:43.931+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-01-11T20:54:43.933+0800","caller":"forumProject/main.go:67","msg":"routes init success..."}
+{"level":"INFO","time":"2023-01-11T20:55:16.920+0800","caller":"logger/logger.go:95","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":10.0005292}
+{"level":"INFO","time":"2023-01-11T21:02:14.563+0800","caller":"forumProject/main.go:89","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-01-11T21:02:14.566+0800","caller":"forumProject/main.go:98","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-01-11T21:02:23.371+0800","caller":"forumProject/main.go:44","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-01-11T21:02:23.378+0800","caller":"forumProject/main.go:55","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-01-11T21:02:23.430+0800","caller":"forumProject/main.go:63","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-01-11T21:02:23.433+0800","caller":"forumProject/main.go:67","msg":"routes init success..."}
+{"level":"INFO","time":"2023-01-11T23:15:26.860+0800","caller":"forumProject/main.go:89","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-01-11T23:15:26.864+0800","caller":"forumProject/main.go:98","msg":"所有请求处理完成,服务正常退出"}

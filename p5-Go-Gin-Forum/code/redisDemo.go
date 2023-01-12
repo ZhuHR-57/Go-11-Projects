@@ -12,21 +12,23 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/go-redis/redis/v8"
 	"log"
 	"time"
+
+	"github.com/go-redis/redis/v8"
 )
 
 var rdb *redis.Client
-var ctx,cancel = context.WithTimeout(context.Background(), 500*time.Millisecond)
+var ctx, cancel = context.WithTimeout(context.Background(), 500*time.Millisecond)
+
 //var ctx = context.Background()
 
 func initClient() (err error) {
 	rdb = redis.NewClient(&redis.Options{
-		Addr:     "47.107.52.134:6379",
+		Addr:     "127.0.0.1:6379",
 		Password: "root", // 密码
-		DB:       0,  // 数据库
-		PoolSize: 20, // 连接池大小
+		DB:       0,      // 数据库
+		PoolSize: 20,     // 连接池大小
 	})
 
 	_, err = rdb.Ping(ctx).Result()
@@ -34,7 +36,7 @@ func initClient() (err error) {
 	return err
 }
 
-func GetAndSet(){
+func GetAndSet() {
 
 	// set
 	err := rdb.Set(ctx, "name", "lido", 0).Err()
@@ -54,7 +56,7 @@ func GetAndSet(){
 	if err == redis.Nil {
 		fmt.Println("key2 does not exist")
 	} else if err != nil {
-		fmt.Printf("Failed to Get err:%#v",err)
+		fmt.Printf("Failed to Get err:%#v", err)
 	} else {
 		fmt.Println("key2", val2)
 	}
@@ -115,7 +117,7 @@ func zsetDemo() {
 // watchDemo 在key值不变的情况下将其值+1
 func watchDemo(ctx context.Context, key string) error {
 	return rdb.Watch(ctx, func(tx *redis.Tx) error {
-		_,err := tx.Get(ctx, key).Result()
+		_, err := tx.Get(ctx, key).Result()
 		if err != nil && err != redis.Nil {
 			return err
 		}
@@ -141,7 +143,7 @@ func main() {
 	defer rdb.Close()
 	defer cancel()
 
-	if err := watchDemo(ctx,"name");err != nil{
+	if err := watchDemo(ctx, "name"); err != nil {
 		fmt.Println(err)
 	}
 
