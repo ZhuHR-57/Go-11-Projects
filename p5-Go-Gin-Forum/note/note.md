@@ -143,11 +143,11 @@ func func3(c *gin.Context){
 }
 
 func func4(c *gin.Context){
-   fmt.Println("func1")
+   fmt.Println("func4")
 }
 
 func func5(c *gin.Context){
-   fmt.Println("func1")
+   fmt.Println("func5")
 }
 
 func main() {
@@ -4007,6 +4007,8 @@ y.SetDefault("ContentDir", "foobar")
 ## 配置
 
 > 文件监听和自动化格式
+
+安装插件 `file watcher`
 
 ![image-20230108144510742](note.assets/image-20230108144510742.png)
 

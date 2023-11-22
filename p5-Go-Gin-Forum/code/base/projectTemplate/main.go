@@ -13,11 +13,9 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"forumProject/controller"
 	"forumProject/dao/mysql"
 	"forumProject/dao/redis"
 	"forumProject/logger"
-	snowflake "forumProject/pkg/sonwflake"
 	"forumProject/routes"
 	"forumProject/settings"
 	"net/http"
@@ -31,7 +29,7 @@ import (
 
 func main() {
 
-	// 0. flag命令行参数指定配置文件
+	// 0. flag参数指定配置文件
 	var configFileName string
 	flag.StringVar(&configFileName, "config", "./config.yaml", "配置文件")
 	flag.Parse()
@@ -69,18 +67,6 @@ func main() {
 	}
 	defer redis.Close()
 	zap.L().Debug("redis init success...")
-
-	//雪花算法初始化：得到一个不重复的user_id
-	if err := snowflake.Init(settings.Conf.MachineID); err != nil {
-		fmt.Printf("init snowflake failed, err:%v\n", err)
-		return
-	}
-
-	// 注册翻译器
-	if err := controller.InitTrans("zh"); err != nil {
-		fmt.Printf("init validator InitTrans failed, err:%v\n", err)
-		return
-	}
 
 	// 4. 路由注册
 	r := routes.Setup(settings.Conf.Mode)

@@ -25,7 +25,7 @@ var ctx, cancel = context.WithTimeout(context.Background(), 500*time.Millisecond
 
 func initClient() (err error) {
 	rdb = redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
+		Addr:     "47.107.52.134:6379",
 		Password: "root", // 密码
 		DB:       0,      // 数据库
 		PoolSize: 20,     // 连接池大小

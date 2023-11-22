@@ -4,7 +4,7 @@ port: 8081
 version: "v0.1.1"
 
 # 雪花算法：开始时间 机器ID
-start_time: "2023-11-14"
+start_time: "2023-01-11"
 machine_id: 1
 
 # 退出等待时间
@@ -12,7 +12,7 @@ wait_time: 20
 
 log:
   level: "debug"
-  filename: "log/forumProject.log"
+  filename: "../log/forumProject.log"
   max_size: 200
   max_age: 30
   max_backups: 7
@@ -25,7 +25,7 @@ mysql:
   max_open_conns: 200
   max_idle_conns: 50
 redis:
-  host: "47.107.52.134"
+  host: "127.0.0.1"
   port: 6379
   password: "root"
   db: 0
