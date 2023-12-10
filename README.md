@@ -54,7 +54,8 @@ Interesting and simple Go language demos from Books ,Bilibili, Icourse163, MOOC,
 +  :white_check_mark: viper文件管理库 【本地和远程的配置文件读取、修改、监控】
 +  :white_check_mark: Forum项目基本环境搭建 【综合运用了上面全部知识点】
 +  :white_check_mark: Forum数据库设计
-+  :white_large_square: Forum用户模块开发【单点登录，JWT】
++  :white_check_mark: Forum用户模块开发1【注册，登录】
++  :white_large_square: Forum用户模块开发2【单点登录，JWT】
 +  :white_large_square: Forum帖子模块开发【CURD，投票】
 +  :white_large_square: swagger接口文档
 +  :white_large_square: Forum测试【单元测试，压力测试，pprof性能测试】

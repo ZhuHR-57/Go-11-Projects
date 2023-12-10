@@ -69,3 +69,114 @@
 {"level":"INFO","time":"2023-11-22T10:38:10.380+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0012579}
 {"level":"ERROR","time":"2023-11-22T10:38:15.553+0800","caller":"controller/user.go:20","msg":"SignUp with invalid param","error":"Key: 'ParamSignUp.username' Error:Field validation for 'username' failed on the 'required' tag\nKey: 'ParamSignUp.re_password' Error:Field validation for 're_password' failed on the 'eqfield' tag\nKey: 'ParamSignUp.re_password' Error:Field validation for 're_password' failed on the 'eqfield' tag"}
 {"level":"INFO","time":"2023-11-22T10:38:15.553+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0006895}
+{"level":"DEBUG","time":"2023-12-10T22:04:32.499+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:04:32.527+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:04:32.608+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:04:32.610+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"INFO","time":"2023-12-10T22:06:52.233+0800","caller":"logger/logger.go:95","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36","errors":"","cost":0}
+{"level":"INFO","time":"2023-12-10T22:06:52.523+0800","caller":"logger/logger.go:95","msg":"/favicon.ico","status":404,"method":"GET","path":"/favicon.ico","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36","errors":"","cost":0}
+{"level":"INFO","time":"2023-12-10T22:08:45.376+0800","caller":"logger/logger.go:95","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0}
+{"level":"ERROR","time":"2023-12-10T22:09:49.060+0800","caller":"controller/user.go:20","msg":"SignUp with invalid param","error":"Key: 'ParamSignUp.re_password' Error:Field validation for 're_password' failed on the 'eqfield' tag\nKey: 'ParamSignUp.re_password' Error:Field validation for 're_password' failed on the 'eqfield' tag"}
+{"level":"INFO","time":"2023-12-10T22:09:49.061+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0007941}
+{"level":"ERROR","time":"2023-12-10T22:09:55.676+0800","caller":"controller/user.go:20","msg":"SignUp with invalid param","error":"Key: 'ParamSignUp.re_password' Error:Field validation for 're_password' failed on the 'eqfield' tag\nKey: 'ParamSignUp.re_password' Error:Field validation for 're_password' failed on the 'eqfield' tag"}
+{"level":"INFO","time":"2023-12-10T22:09:55.677+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.000713}
+{"level":"ERROR","time":"2023-12-10T22:10:04.209+0800","caller":"controller/user.go:20","msg":"SignUp with invalid param","error":"Key: 'ParamSignUp.re_password' Error:Field validation for 're_password' failed on the 'eqfield' tag\nKey: 'ParamSignUp.re_password' Error:Field validation for 're_password' failed on the 'eqfield' tag"}
+{"level":"INFO","time":"2023-12-10T22:10:04.209+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0004036}
+{"level":"INFO","time":"2023-12-10T22:10:08.174+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0185446}
+{"level":"INFO","time":"2023-12-10T22:15:19.061+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T22:15:19.063+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T22:15:27.829+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:15:27.837+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:15:28.026+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:15:28.027+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"INFO","time":"2023-12-10T22:15:32.063+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0017426}
+{"level":"INFO","time":"2023-12-10T22:17:43.735+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T22:17:43.738+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T22:17:51.114+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:17:51.121+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:17:51.268+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:17:51.271+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"INFO","time":"2023-12-10T22:17:59.486+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.001552}
+{"level":"INFO","time":"2023-12-10T22:19:23.144+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0012985}
+{"level":"INFO","time":"2023-12-10T22:19:30.268+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T22:19:30.270+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T22:19:37.724+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:19:37.731+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:19:37.916+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:19:37.918+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"INFO","time":"2023-12-10T22:19:47.609+0800","caller":"logger/logger.go:95","msg":"/signup","status":200,"method":"POST","path":"/signup","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0151037}
+{"level":"INFO","time":"2023-12-10T22:22:07.193+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T22:22:07.197+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T22:22:15.063+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:22:15.069+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:22:15.251+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:22:15.253+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"INFO","time":"2023-12-10T22:59:44.174+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T22:59:44.177+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T22:59:52.335+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:59:52.344+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:59:52.434+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T22:59:52.436+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"ERROR","time":"2023-12-10T23:00:09.845+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selcet user_id,username,password from user where username = ?' at line 1"}
+{"level":"INFO","time":"2023-12-10T23:00:09.845+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0015595}
+{"level":"INFO","time":"2023-12-10T23:00:49.080+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T23:00:49.083+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T23:01:00.860+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:01:00.867+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:01:00.946+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:01:00.949+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"ERROR","time":"2023-12-10T23:01:04.105+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"scannable dest type ptr with >1 columns (3) in result"}
+{"level":"INFO","time":"2023-12-10T23:01:04.106+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.00335}
+{"level":"INFO","time":"2023-12-10T23:05:18.499+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T23:05:18.502+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T23:05:26.589+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:05:26.596+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:05:26.781+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:05:26.783+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"ERROR","time":"2023-12-10T23:05:29.716+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"missing destination name user_id in *models.User"}
+{"level":"INFO","time":"2023-12-10T23:05:29.717+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0013185}
+{"level":"INFO","time":"2023-12-10T23:07:12.400+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T23:07:12.403+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T23:07:19.960+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:07:19.967+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:07:20.035+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:07:20.038+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"ERROR","time":"2023-12-10T23:07:23.795+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2023-12-10T23:07:23.795+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0017265}
+{"level":"INFO","time":"2023-12-10T23:08:09.198+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T23:08:09.199+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T23:08:18.230+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:08:18.237+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:08:18.308+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:08:18.311+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"ERROR","time":"2023-12-10T23:08:19.617+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"missing destination name user_id in *models.User"}
+{"level":"INFO","time":"2023-12-10T23:08:19.618+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0025488}
+{"level":"INFO","time":"2023-12-10T23:09:36.305+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T23:09:36.307+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T23:09:44.658+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:09:44.664+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:09:44.747+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:09:44.749+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"ERROR","time":"2023-12-10T23:09:47.276+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"missing destination name user_id in *models.User"}
+{"level":"INFO","time":"2023-12-10T23:09:47.276+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0024687}
+{"level":"INFO","time":"2023-12-10T23:15:06.905+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T23:15:06.906+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T23:15:14.674+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:15:14.681+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:15:14.789+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:15:14.791+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"ERROR","time":"2023-12-10T23:15:18.435+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"missing destination name user_id in *models.User"}
+{"level":"INFO","time":"2023-12-10T23:15:18.436+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0024486}
+{"level":"INFO","time":"2023-12-10T23:17:09.305+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T23:17:09.307+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}
+{"level":"DEBUG","time":"2023-12-10T23:17:17.144+0800","caller":"forumProject/main.go:52","msg":"logger init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:17:17.152+0800","caller":"forumProject/main.go:63","msg":"mysql init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:17:17.258+0800","caller":"forumProject/main.go:71","msg":"redis init success..."}
+{"level":"DEBUG","time":"2023-12-10T23:17:17.260+0800","caller":"forumProject/main.go:87","msg":"routes init success..."}
+{"level":"ERROR","time":"2023-12-10T23:17:26.050+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"用户不存在"}
+{"level":"INFO","time":"2023-12-10T23:17:26.051+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0013842}
+{"level":"ERROR","time":"2023-12-10T23:17:34.300+0800","caller":"controller/user.go:73","msg":"logic.Login failed","error":"密码错误"}
+{"level":"INFO","time":"2023-12-10T23:17:34.300+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0013318}
+{"level":"INFO","time":"2023-12-10T23:17:41.508+0800","caller":"logger/logger.go:96","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"::1","user-agent":"PostmanRuntime/7.28.4","errors":"","cost":0.0011567}
+{"level":"INFO","time":"2023-12-10T23:26:19.139+0800","caller":"forumProject/main.go:109","msg":"触发关闭等待服务，将等待20s"}
+{"level":"INFO","time":"2023-12-10T23:26:19.142+0800","caller":"forumProject/main.go:118","msg":"所有请求处理完成,服务正常退出"}

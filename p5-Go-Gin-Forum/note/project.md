@@ -49,6 +49,7 @@ func main() {
 
 ```yaml
 name: "forumProject"
+# 控制项目模式，决定日志输出的位置
 mode: "dev"
 port: 8081
 version: "v0.1.1"
@@ -56,6 +57,9 @@ version: "v0.1.1"
 # 雪花算法：开始时间 机器ID
 start_time: "2023-11-14"
 machine_id: 1
+
+# 加密盐
+salt: "elevenProject"
 
 # 退出等待时间
 wait_time: 20
@@ -107,6 +111,7 @@ type AppConfig struct {
 	StartTime    string `mapstructure:"start_time"`
 	MachineID    uint16  `mapstructure:"machine_id"`
 	WaitTime     int    `mapstructure:"wait_time"`
+    Salt         string `mapstructure:"salt"`
 	*LogConfig   `mapstructure:"log"`
 	*MySQLConfig `mapstructure:"mysql"`
 	*RedisConfig `mapstructure:"redis"`
@@ -716,12 +721,24 @@ func SignUpHandler(c *gin.Context){
     // 2. 业务逻辑
     logic.SignUp()
     
-    // 3. 返回值
-    c.JSON(http.StatusOK,gin.H{
-        "msg":"successed"
-    })
+	// 3. 返回值
+	c.JSON(http.StatusOK, gin.H{
+		"msg": "SignUpHandler successed",
+	})
 }
 ```
+
+```go
+// 2. 业务逻辑
+if err := logic.SignUp(p); err != nil {
+    c.JSON(http.StatusOK, gin.H{
+        "msg": "用户名已被注册 "+err.Error(),
+    })
+    return
+}
+```
+
+
 
 ---
 
@@ -886,6 +903,45 @@ func SignUpHandler(c *gin.Context) {
 
 ![](https://onedrive.live.com/embed?resid=FB131618609B8AF0%211489&authkey=%21AKqDSLuZEpHpJhg&width=892&height=584)
 
+```go
+func SignUpHandler(c *gin.Context) {
+
+	// 1. 获取参数和参数校验
+	p := new(models.ParamSignUp)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("SignUp with invalid param", zap.Error(err))
+
+		// 判断err类型是否是validator内置的类型
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			c.JSON(http.StatusOK, gin.H{
+				"msg": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"msg": errs.Translate(trans), // 使用翻译器
+		})
+		return
+	}
+
+	// 2. 业务逻辑
+	if err := logic.SignUp(p); err != nil {
+		zap.L().Error("logic.SignUp failed", zap.String("username", p.Username), zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "用户名已被注册",
+		})
+		return
+	}
+
+	// 3. 返回值
+	c.JSON(http.StatusOK, gin.H{
+		"msg": "SignUpHandler successed",
+	})
+```
+
+
+
 ### logic        
 
 logic/user.go
@@ -901,6 +957,35 @@ func SignUp(){
 }
 ```
 
+```go
+func SignUp(p *models.ParamSignUp) (err error) {
+
+	// 1.判断用户是否存在
+	if err = mysql.CheckUserExist(p.Username); err != nil {
+		return err
+	}
+
+	// 2.生成UID
+	var userID uint64
+	if userID, err = snowflake.GetID(); err != nil {
+		return err
+	}
+	user := &models.User{
+		UserID:   userID,
+		UserName: p.Username,
+		Password: p.Password,
+	}
+
+	// 3.入库
+	if err = mysql.InsertUser(user); err != nil {
+		return err
+	}
+
+	return
+}
+
+```
+
 ### model
 
 model/user.go
@@ -910,6 +995,12 @@ type ParamSignUp struct{
     Username string `json:"username" binding:"required"
     Password string `json:"password" binding:"required"
     RePassword string `json:"re_password" binding:"required,eqfied=Password"`
+}
+
+type User struct {
+	UserID   uint64 `json:"user_id"`
+	UserName string `json:"username"`
+	Password string `json:"password"`
 }
 ```
 
@@ -921,14 +1012,208 @@ dao/mysql/user.go
 
 ```go
 // 查询用户是否存在
-func QueryUserByUsername(){}
+func CheckUserExist(){
+    // SQL查询
+    
+    // 返回
+}
+
 // 添加用户
 func InsertUser(){
+    // 加密密码
+    
     // 执行SQL
+}
+
+// 加密
+```
+
+```go
+func CheckUserExist(username string) (err error) {
+
+	sqlStr := `select count(user_id) from user where username = ?`
+	var count int
+	if err = db.Get(&count, sqlStr, username); err != nil {
+		return err
+	}
+	if count > 0 {
+		return errors.New("用户已存在")
+	}
+	return
+}
+
+func InsertUser(user *models.User) (err error) {
+
+	// 对密码加密
+	password := encryptPassword(user.Password)
+
+	// 插入
+	sqlStr := `insert into user(user_id,username,password) values(?,?,?)`
+	_, err = db.Exec(sqlStr, user.UserID, user.UserName, password)
+
+	return
+}
+
+func encryptPassword(oldPassword string) string {
+	h := md5.New()
+	h.Write([]byte(settings.Conf.Salt))
+	return hex.EncodeToString(h.Sum([]byte(oldPassword)))
 }
 ```
 
+## 登录业务流程
 
+### route
 
+route/route.go
 
+```go
+r.POST("/login", controller.LoginHandler)
+```
+
+### control
+
+control/user.go
+
+```go
+func LoginHandler(c *gin.Context) {
+	// 1. 获取请求以及参数校验
+    
+    // 2. 业务逻辑处理
+    
+    // 3. 返回响应
+}
+```
+
+```go
+func LoginHandler(c *gin.Context) {
+	// 1. 获取参数和参数校验
+	p := new(models.ParamLogin)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("Login with invalid param", zap.Error(err))
+
+		// 判断err类型是否是validator内置的类型
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			c.JSON(http.StatusOK, gin.H{
+				"msg": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"msg": errs.Translate(trans), // 使用翻译器
+		})
+		return
+	}
+
+	// 2.业务逻辑
+	if err := logic.Login(p); err != nil {
+		zap.L().Error("logic.Login failed", zap.String("username", p.Username), zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "用户名或密码错误",
+		})
+		return
+	}
+
+	// 3.返回响应
+	c.JSON(http.StatusOK, gin.H{
+		"msg": "LoginHandler successed",
+	})
+}
+```
+
+### model
+
+model/user.go
+
+```go
+type ParamLogin struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+```
+
+### logic
+
+logic/user.go
+
+```
+func SignUp(){
+    
+    // 1.实例化user
+    
+    // 2.登录检验
+    
+}
+```
+
+```go
+func Login(p *models.ParamLogin) error {
+
+	// 实例化user
+	user := &models.User{
+		UserName: p.Username,
+		Password: p.Password,
+	}
+	return mysql.Login(user)
+
+}
+```
+
+### dao
+
+dao/mysql/user.go
+
+```
+func Login(user *models.User) (err error) {
+	// 保存用户传入的密码1
+	
+	// 通过用户名读取出库中密码2
+	
+	// 加密密码1与库中密码2比对
+	
+}
+```
+
+```go
+func Login(user *models.User) (err error) {
+
+	oldPassword := user.Password
+
+	sqlStr := `select username,password from user where username = ?`
+	err = db.Get(user, sqlStr, user.UserName)
+	// 一般不会判断不存在，因为不能让用户知道
+	if err == sql.ErrNoRows {
+		return errors.New("用户不存在")
+	}
+	if err != nil {
+		// 数据库错误
+		return err
+	}
+
+	waitProvePassword := encryptPassword(oldPassword)
+	if waitProvePassword != user.Password {
+		return errors.New("密码错误")
+	}
+	return
+}
+```
+
+### 难点
+
+```go
+if err == sql.ErrNoRows {
+    return errors.New("用户不存在")
+}
+
+	// 2.业务逻辑
+	if err := logic.Login(p); err != nil {
+		//日志记录
+		zap.L().Error("logic.Login failed", zap.String("username", p.Username), zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "用户名或密码错误",
+		})
+		return
+	}
+```
 

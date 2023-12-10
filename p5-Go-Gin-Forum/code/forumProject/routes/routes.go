@@ -42,6 +42,7 @@ func Setup(mode string) *gin.Engine {
 	})
 
 	r.POST("/signup", controller.SignUpHandler)
+	r.POST("/login", controller.LoginHandler)
 
 	return r
 }

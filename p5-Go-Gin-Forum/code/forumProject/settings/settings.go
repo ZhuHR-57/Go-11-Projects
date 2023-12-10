@@ -27,6 +27,7 @@ type AppConfig struct {
 	StartTime    string `mapstructure:"start_time"`
 	MachineID    uint16 `mapstructure:"machine_id"`
 	WaitTime     int    `mapstructure:"wait_time"`
+	Salt         string `mapstructure:"salt"`
 	*LogConfig   `mapstructure:"log"`
 	*MySQLConfig `mapstructure:"mysql"`
 	*RedisConfig `mapstructure:"redis"`

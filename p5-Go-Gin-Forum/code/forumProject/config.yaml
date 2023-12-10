@@ -10,6 +10,9 @@ machine_id: 1
 # 退出等待时间
 wait_time: 20
 
+# 加密盐
+salt: "elevenProject"
+
 log:
   level: "debug"
   filename: "log/forumProject.log"
@@ -21,7 +24,7 @@ mysql:
   port: 3306
   user: "root"
   password: "rootroot"
-  dbname: "test"
+  dbname: "bluebell"
   max_open_conns: 200
   max_idle_conns: 50
 redis:
